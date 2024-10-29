@@ -1,16 +1,18 @@
 package com.br.monitoria.software.controller;
 
-import com.br.monitoria.software.service.SheetsService;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import com.br.monitoria.software.dto.StudentSheetDTO;
+import com.br.monitoria.software.exception.StudentNotFoundException;
+import com.br.monitoria.software.service.SheetsService;
 
 @RestController
 public class SheetsController {
@@ -18,30 +20,44 @@ public class SheetsController {
     private SheetsService sheetsService;
 
     @GetMapping("/sheets/student")
-    public Map<String, Object> getStudentData(@RequestParam String studentId) {
+    public ResponseEntity<StudentSheetDTO> getStudentSheet(@RequestParam("studentId") String studentId) {
         try {
             List<Object> studentData = sheetsService.getStudentData(studentId);
-            if (studentData == null) {
-                return null;
+
+            if (studentData.size() < 23) {
+                return ResponseEntity.status(400).body(new StudentSheetDTO("Error: Insufficient data for student ID " + studentId));
             }
 
-            Map<String, Object> result = new LinkedHashMap<>();
-            result.put("matricula", studentData.get(0));
-            result.put("atividade1", studentData.get(1));
-            result.put("atividade2", studentData.get(2));
-            result.put("atividade3", studentData.get(3));
-            result.put("atividade4", studentData.get(4));
-            result.put("atividade5", studentData.get(5));
-            result.put("atividade6", studentData.get(6));
-            result.put("atividade7", studentData.get(7));
-            result.put("atividade8", studentData.get(8));
-            result.put("atividade9", studentData.get(9));
-            result.put("total", studentData.get(10));
+            StudentSheetDTO result = new StudentSheetDTO();
+            result.setMatricula((String) studentData.get(0));
+            result.setNome((String) studentData.get(1));
+            result.setPontoForms((String) studentData.get(2));
+            result.setAtv1((String) studentData.get(3));
+            result.setBad1((String) studentData.get(4));
+            result.setAtv2((String) studentData.get(5));
+            result.setBad2((String) studentData.get(6));
+            result.setAtv3((String) studentData.get(7));
+            result.setBad3((String) studentData.get(8));
+            result.setAtv4((String) studentData.get(9));
+            result.setBad4((String) studentData.get(10));
+            result.setAtv5((String) studentData.get(11));
+            result.setBad5((String) studentData.get(12));
+            result.setPerfil((String) studentData.get(13));
+            result.setQuizz((String) studentData.get(14));
+            result.setLearn((String) studentData.get(15));
+            result.setForms((String) studentData.get(16));
+            result.setConquistas((String) studentData.get(17));
+            result.setOtimosExemplos((String) studentData.get(18));
+            result.setBonsRecursos((String) studentData.get(19));
+            result.setCumprirOTempo((String) studentData.get(20));
+            result.setBaseTeorica((String) studentData.get(21));
+            result.setTrabalhoEmEquipe((String) studentData.get(22));
 
-            return result;
+            return ResponseEntity.ok(result);
+        } catch (StudentNotFoundException e) {
+            return ResponseEntity.status(404).body(new StudentSheetDTO("Error: " + e.getMessage()));
         } catch (IOException | GeneralSecurityException e) {
-            e.printStackTrace();
-            return null;
+            return ResponseEntity.status(500).build();
         }
     }
 }

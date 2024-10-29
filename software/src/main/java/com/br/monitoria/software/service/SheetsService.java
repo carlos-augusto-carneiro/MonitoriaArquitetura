@@ -1,5 +1,16 @@
 package com.br.monitoria.software.service;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
+import java.util.Collections;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.br.monitoria.software.exception.StudentNotFoundException;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
@@ -13,15 +24,6 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import org.springframework.stereotype.Service;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.security.GeneralSecurityException;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class SheetsService {
@@ -30,8 +32,8 @@ public class SheetsService {
     private static final String TOKENS_DIRECTORY_PATH = "tokens";
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-    private static final String SPREADSHEET_ID = "1mTNm9TXdhVUPqAhhTap8cIYC9cHeuMiNRvxca0f3pKs"; // ID da planilha
-    private static final String RANGE = "PONTUACAO!A2:K"; 
+    private static final String SPREADSHEET_ID = "1eho0FF0iU1HbillqQ91blyPVvVqH2cU3mogJffwntJQ"; 
+    private static final String RANGE = "Pontuacao!A:AG"; 
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = SheetsService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
@@ -48,7 +50,7 @@ public class SheetsService {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    public List<Object> getStudentData(String studentId) throws IOException, GeneralSecurityException {
+    public List<Object> getStudentData(String studentId) throws IOException, GeneralSecurityException, StudentNotFoundException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -57,7 +59,7 @@ public class SheetsService {
         List<List<Object>> values = response.getValues();
 
         if (values == null || values.isEmpty()) {
-            return null;
+            throw new StudentNotFoundException("Estudante com essa matricula " + studentId + " não está cadastrado na turma.");
         }
 
         for (List<Object> row : values) {
@@ -65,6 +67,6 @@ public class SheetsService {
                 return row;
             }
         }
-        return null;
+        throw new StudentNotFoundException("Student with ID " + studentId + " not found.");
     }
 }
