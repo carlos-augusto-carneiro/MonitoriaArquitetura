@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinhaNotaMonitor</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            background: #000; /* Fundo escuro */
+            overflow: hidden;
+        }
+        .stars {
+            width: 3px; /* Aumenta o tamanho das estrelas */
+            height: 3px; /* Aumenta o tamanho das estrelas */
+            background: white;
+            position: absolute;
+            animation: twinkle 1.5s infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+        .full-height {
+            height: 100vh;
+        }
+        .btn-large {
+            font-size: 1.5rem; /* Aumenta o tamanho da fonte do botão */
+            padding: 1rem 2rem; /* Aumenta o padding do botão */
+        }
+        .form-control::placeholder {
+            font-size: 1.5rem; /* Aumenta o tamanho do texto do placeholder */
+        }
+        .mt-2 {
+            margin-top: 0.5rem; /* Reduz a margem superior */
+        }
+        .mb-1 {
+            margin-bottom: 0.25rem; /* Reduz a margem inferior */
+        }
+        .fade-in {
+            animation: fadeIn 2s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container d-flex justify-content-center align-items-center full-height">
+        <div class="text-center w-100">
+            <div class="form-signin">
+                <h1 class="display-4 fade-in">Definir o nome</h1>
+                <p class="lead">Para acessar saber sua pontuação digite sua matricula:</p>
+                <input type="text" class="form-control mb-3" placeholder="Matricula">
+                <button class="btn btn-primary mb-4 btn-large w-100">Acessar</button>
+            </div>
+            <div class="row align-items-center mt-2">
+                <div class="col-md-9">
+                    <h4 class="display-6 mb-1">Como funciona a pontuação?</h4>
+                </div>
+                <div class="col-md-3 text-right">
+                    <form action="/ap1" method="get" class="d-inline-block mr-2">
+                        <button type="submit" class="btn btn-primary fs-5 btn-large">Ap1</button>
+                    </form>
+                    <form action="/ap2" method="get" class="d-inline-block">
+                        <button type="submit" class="btn btn-primary fs-5 btn-large" disabled>Ap2</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Adicionando estrelas -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const starCount = 300; // Aumente o número de estrelas
+            const body = document.body;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'stars';
+                star.style.top = `${Math.random() * 100}vh`;
+                star.style.left = `${Math.random() * 100}vw`;
+                body.appendChild(star);
+            }
+        });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
