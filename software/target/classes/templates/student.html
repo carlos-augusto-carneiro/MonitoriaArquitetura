@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Data</title>
+    <link rel="stylesheet" href="path/to/bootstrap.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h1>Dados do Estudante</h1>
+        <div id="student-data">
+            <p th:text="'Matricula: ' + ${student.matricula}"></p>
+            <p th:text="'Nome: ' + ${student.nome}"></p>
+            <p th:text="'Ponto Forms: ' + ${student.pontoForms}"></p>
+            <p th:text="'Atividade 1: ' + ${student.atv1}"></p>
+            <p th:text="'Badge 1: ' + ${student.bad1}"></p>
+            <p th:text="'Atividade 2: ' + ${student.atv2}"></p>
+            <p th:text="'Badge 2: ' + ${student.bad2}"></p>
+            <p th:text="'Atividade 3: ' + ${student.atv3}"></p>
+            <p th:text="'Badge 3: ' + ${student.bad3}"></p>
+            <p th:text="'Atividade 4: ' + ${student.atv4}"></p>
+            <p th:text="'Badge 4: ' + ${student.bad4}"></p>
+            <p th:text="'Atividade 5: ' + ${student.atv5}"></p>
+            <p th:text="'Badge 5: ' + ${student.bad5}"></p>
+            <p th:text="'Perfil: ' + ${student.perfil}"></p>
+            <p th:text="'Quizz: ' + ${student.quizz}"></p>
+            <p th:text="'Learn: ' + ${student.learn}"></p>
+            <p th:text="'Forms: ' + ${student.forms}"></p>
+            <p th:text="'Conquistas: ' + ${student.conquistas}"></p>
+            <p th:text="'Ótimos Exemplos: ' + ${student.otimosExemplos}"></p>
+            <p th:text="'Bons Recursos: ' + ${student.bonsRecursos}"></p>
+            <p th:text="'Cumprir o Tempo: ' + ${student.cumprirOTempo}"></p>
+            <p th:text="'Base Teórica: ' + ${student.baseTeorica}"></p>
+            <p th:text="'Trabalho em Equipe: ' + ${student.trabalhoEmEquipe}"></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.br.monitoria.software.dto.Student;
 import com.br.monitoria.software.exception.StudentNotFoundException;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -33,7 +34,7 @@ public class SheetsService {
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
     private static final String SPREADSHEET_ID = "1eho0FF0iU1HbillqQ91blyPVvVqH2cU3mogJffwntJQ"; 
-    private static final String RANGE = "Pontuacao!A:AG"; 
+    private static final String RANGE = "TabelaAlunosPontos ! A:AG"; 
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = SheetsService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
@@ -50,7 +51,7 @@ public class SheetsService {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
-    public List<Object> getStudentData(String studentId) throws IOException, GeneralSecurityException, StudentNotFoundException {
+    public Student fetchStudentData(String studentId) throws IOException, GeneralSecurityException, StudentNotFoundException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
                 .setApplicationName(APPLICATION_NAME)
@@ -64,7 +65,31 @@ public class SheetsService {
 
         for (List<Object> row : values) {
             if (row.get(0).toString().equals(studentId)) {
-                return row;
+                Student student = new Student();
+                student.setMatricula(row.get(0).toString());
+                student.setNome(row.get(1).toString());
+                student.setPontoForms(Integer.parseInt(row.get(2).toString()));
+                student.setAtv1(Integer.parseInt(row.get(3).toString()));
+                student.setBad1(Integer.parseInt(row.get(4).toString()));
+                student.setAtv2(Integer.parseInt(row.get(5).toString()));
+                student.setBad2(Integer.parseInt(row.get(6).toString()));
+                student.setAtv3(Integer.parseInt(row.get(7).toString()));
+                student.setBad3(Integer.parseInt(row.get(8).toString()));
+                student.setAtv4(Integer.parseInt(row.get(9).toString()));
+                student.setBad4(Integer.parseInt(row.get(10).toString()));
+                student.setAtv5(Integer.parseInt(row.get(11).toString()));
+                student.setBad5(Integer.parseInt(row.get(12).toString()));
+                student.setPerfil(row.get(13).toString());
+                student.setQuizz(Integer.parseInt(row.get(14).toString()));
+                student.setLearn(Integer.parseInt(row.get(15).toString()));
+                student.setForms(Integer.parseInt(row.get(16).toString()));
+                student.setConquistas(Integer.parseInt(row.get(17).toString()));
+                student.setOtimosExemplos(Integer.parseInt(row.get(18).toString()));
+                student.setBonsRecursos(Integer.parseInt(row.get(19).toString()));
+                student.setCumprirOTempo(Integer.parseInt(row.get(20).toString()));
+                student.setBaseTeorica(Integer.parseInt(row.get(21).toString()));
+                student.setTrabalhoEmEquipe(Integer.parseInt(row.get(22).toString()));
+                return student;
             }
         }
         throw new StudentNotFoundException("Student with ID " + studentId + " not found.");
