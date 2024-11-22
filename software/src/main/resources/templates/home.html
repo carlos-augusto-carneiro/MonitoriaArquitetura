@@ -90,10 +90,10 @@
               <a class="nav-link disabled navbar-custom-font" aria-disabled="true">Avaliação 2</a>
             </li>
           </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="number" placeholder="Sua matricula" aria-label="Search">
+          <form class="d-flex" role="search" th:action="@{/sheets/student}" method="get">
+            <input class="form-control me-2" type="number" name="studentId" placeholder="Sua matricula" aria-label="Search">
             <button class="btn btn-outline-success buttom-custom" type="submit">Buscar</button>
-          </form>
+        </form>
         </div>
       </div>
     </nav>

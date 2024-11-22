@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,32 @@ public class SheetsService {
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
     private static final String SPREADSHEET_ID = "1eho0FF0iU1HbillqQ91blyPVvVqH2cU3mogJffwntJQ"; 
-    private static final String RANGE = "TabelaAlunosPontos ! A:AG"; 
+    private static final String RANGE = "TabelaAlunosPontos!A:AG"; 
+    private static final Logger logger = Logger.getLogger(SheetsService.class.getName());
+
+    // Column indices
+    private static final int COL_MATRICULA = 0;
+    private static final int COL_NOME = 1;
+    private static final int COL_ATV_PERFIL = 2;
+    private static final int COL_ATV1 = 3;
+    private static final int COL_BAD1 = 4;
+    private static final int COL_ATV2 = 5;
+    private static final int COL_BAD2 = 6;
+    private static final int COL_ATV3 = 7;
+    private static final int COL_BAD3 = 8;
+    private static final int COL_PERFIL = 9;
+    private static final int COL_ATV4 = 10;
+    private static final int COL_BAD4 = 11;
+    private static final int COL_ATV5 = 12;
+    private static final int COL_BAD5 = 13;
+    private static final int COL_QUIZZ = 14;
+    private static final int COL_LEARN = 15;
+    private static final int COL_FORMS = 16;
+    private static final int COL_OTIMOS_EXEMPLOS = 17;
+    private static final int COL_BONS_RECURSOS = 18;
+    private static final int COL_CUMPRIR_O_TEMPO = 19;
+    private static final int COL_BASE_TEORICA = 20;
+    private static final int COL_TRABALHO_EM_EQUIPE = 21;
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
         InputStream in = SheetsService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
@@ -64,34 +90,59 @@ public class SheetsService {
         }
 
         for (List<Object> row : values) {
-            if (row.get(0).toString().equals(studentId)) {
+            if (row.get(COL_MATRICULA).toString().equals(studentId)) {
                 Student student = new Student();
-                student.setMatricula(row.get(0).toString());
-                student.setNome(row.get(1).toString());
-                student.setPontoForms(Integer.parseInt(row.get(2).toString()));
-                student.setAtv1(Integer.parseInt(row.get(3).toString()));
-                student.setBad1(Integer.parseInt(row.get(4).toString()));
-                student.setAtv2(Integer.parseInt(row.get(5).toString()));
-                student.setBad2(Integer.parseInt(row.get(6).toString()));
-                student.setAtv3(Integer.parseInt(row.get(7).toString()));
-                student.setBad3(Integer.parseInt(row.get(8).toString()));
-                student.setAtv4(Integer.parseInt(row.get(9).toString()));
-                student.setBad4(Integer.parseInt(row.get(10).toString()));
-                student.setAtv5(Integer.parseInt(row.get(11).toString()));
-                student.setBad5(Integer.parseInt(row.get(12).toString()));
-                student.setPerfil(row.get(13).toString());
-                student.setQuizz(Integer.parseInt(row.get(14).toString()));
-                student.setLearn(Integer.parseInt(row.get(15).toString()));
-                student.setForms(Integer.parseInt(row.get(16).toString()));
-                student.setConquistas(Integer.parseInt(row.get(17).toString()));
-                student.setOtimosExemplos(Integer.parseInt(row.get(18).toString()));
-                student.setBonsRecursos(Integer.parseInt(row.get(19).toString()));
-                student.setCumprirOTempo(Integer.parseInt(row.get(20).toString()));
-                student.setBaseTeorica(Integer.parseInt(row.get(21).toString()));
-                student.setTrabalhoEmEquipe(Integer.parseInt(row.get(22).toString()));
+                student.setMatricula(row.get(COL_MATRICULA).toString());
+                student.setNome(getValue(row, COL_NOME));
+                student.setPerfis(getValue(row, COL_PERFIL));
+                student.setPontoForms(parseInteger(getValue(row, COL_ATV_PERFIL)));
+                student.setAtv1(parseInteger(getValue(row, COL_ATV1)));
+                student.setBad1(parseInteger(getValue(row, COL_BAD1)));
+                student.setAtv2(parseInteger(getValue(row, COL_ATV2)));
+                student.setBad2(parseInteger(getValue(row, COL_BAD2)));
+                student.setAtv3(parseInteger(getValue(row, COL_ATV3)));
+                student.setBad3(parseInteger(getValue(row, COL_BAD3)));
+                student.setAtv4(parseInteger(getValue(row, COL_ATV4)));
+                student.setBad4(parseInteger(getValue(row, COL_BAD4)));
+                student.setAtv5(parseInteger(getValue(row, COL_ATV5)));
+                student.setBad5(parseInteger(getValue(row, COL_BAD5)));
+                student.setQuizz(parseInteger(getValue(row, COL_QUIZZ)));
+                student.setLearn(parseInteger(getValue(row, COL_LEARN)));
+                student.setForms(parseInteger(getValue(row, COL_FORMS)));
+                student.setOtimosExemplos(parseInteger(getValue(row, COL_OTIMOS_EXEMPLOS)));
+                student.setBonsRecursos(parseInteger(getValue(row, COL_BONS_RECURSOS)));
+                student.setCumprirOTempo(parseInteger(getValue(row, COL_CUMPRIR_O_TEMPO)));
+                student.setBaseTeorica(parseInteger(getValue(row, COL_BASE_TEORICA)));
+                student.setTrabalhoEmEquipe(parseInteger(getValue(row, COL_TRABALHO_EM_EQUIPE)));
                 return student;
             }
         }
-        throw new StudentNotFoundException("Student with ID " + studentId + " not found.");
+        throw new StudentNotFoundException("Desculpe, não encontramos um estudante com a matrícula fornecida. Por favor, verifique a matrícula e tente novamente ou tente falar com o monitor.");
+    }
+
+    private String getValue(List<Object> row, int index) {
+        if (index < row.size()) {
+            logger.info(String.format("Fetching value from row: %s, index: %d", row, index));
+            return row.get(index).toString();
+        } else {
+            logger.warning(String.format("Index %d out of bounds for row: %s", index, row));
+            return "";
+        }
+    }
+
+    private int parseInteger(String value) {
+        if (value == null || value.isEmpty() || !isNumeric(value)) {
+            logger.warning(String.format("Non-numeric value encountered: %s", value));
+            return 0;
+        }
+        return Integer.parseInt(value);
+    }
+
+    private boolean isNumeric(String str) {
+        try {
+            return str != null && str.matches("\\d+");
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }
