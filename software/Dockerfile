@@ -1,13 +1,16 @@
-# Estágio de build
-FROM maven:3.9.8-eclipse-temurin-17-alpine AS builder
-RUN apk update
-WORKDIR /app
-RUN mvn dependency:go-offline
+FROM ubuntu:latest AS build
+
+RUN apt-get update
+RUN apt-get install openjdk-17-jdk -y
 COPY . .
+
+RUN apt-get install maven -y
 RUN mvn clean install 
 
-# Estágio final
 FROM openjdk:17-jdk-slim
-WORKDIR /app
-COPY --from=builder /app/target/*.jar app.jar
-CMD ["java", "-jar", "app.jar"]
+
+EXPOSE 8080
+
+COPY --from=build /target/*.jar app.jar
+
+ENTRYPOINT [ "java", "-jar", "app.jar" ]
