@@ -1,6 +1,6 @@
 # Estágio de build
 FROM maven:3.9.8-eclipse-temurin-17-alpine AS builder
-RUN apt-get update
+RUN apk update
 WORKDIR /app
 RUN mvn dependency:go-offline
 COPY . .
