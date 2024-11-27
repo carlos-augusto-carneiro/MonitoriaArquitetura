@@ -5,14 +5,14 @@ FROM ubuntu:latest AS build
 RUN apt-get update
 RUN apt-get install openjdk-17-jdk maven -y
 
-# Copiar todo o conteúdo do diretório atual para o contêiner (certifique-se de que o pom.xml esteja no mesmo diretório que o Dockerfile)
+# Copiar todo o conteúdo do diretório atual para o contêiner
 COPY . /software
 
 # Definir o diretório de trabalho para onde o código foi copiado
 WORKDIR /software
 
 # Executar o Maven para construir o projeto
-RUN mvn clean install 
+RUN mvn clean install
 
 # Estágio final
 FROM openjdk:17-jdk-slim
@@ -21,7 +21,7 @@ FROM openjdk:17-jdk-slim
 EXPOSE 8080
 
 # Copiar o JAR gerado no estágio de build para a imagem final
-COPY --from=build /app/target/*.jar app.jar
+COPY --from=build /software/target/*.jar app.jar
 
 # Definir o comando de entrada para rodar o JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
