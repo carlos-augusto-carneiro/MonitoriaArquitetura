@@ -1,8 +1,8 @@
 # Estágio de build
 FROM maven:3.9.8-eclipse-temurin-17-alpine AS builder
 WORKDIR /app
-COPY ./pom.xml ./pom.xml
-COPY ./src ./src
+COPY pom.xml .
+COPY src ./src
 RUN mvn clean package -DskipTests
 
 # Estágio final
