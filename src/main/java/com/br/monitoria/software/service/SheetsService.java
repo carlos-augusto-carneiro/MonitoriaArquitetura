@@ -1,10 +1,9 @@
 package com.br.monitoria.software.service;
 
-import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.GeneralSecurityException;
-import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
@@ -23,13 +22,14 @@ import com.google.api.services.sheets.v4.SheetsScopes;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import com.google.auth.http.HttpCredentialsAdapter;
 import com.google.auth.oauth2.GoogleCredentials;
+import com.google.auth.oauth2.ServiceAccountCredentials;
 
 @Service
 public class SheetsService {
     private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
-    //private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "/etc/secrets/credentials.json";
     private static final String SPREADSHEET_ID = "1eho0FF0iU1HbillqQ91blyPVvVqH2cU3mogJffwntJQ"; 
     private static final String RANGE = "TabelaAlunosPontos!A:AG"; 
     private static final Logger logger = Logger.getLogger(SheetsService.class.getName());
@@ -58,7 +58,7 @@ public class SheetsService {
     private static final int COL_BASE_TEORICA = 20;
     private static final int COL_TRABALHO_EM_EQUIPE = 21;
  
-    /*private HttpRequestInitializer getCredentials() throws IOException {
+    private HttpRequestInitializer getCredentials() throws IOException {
         // Carregar o arquivo JSON da conta de serviço
         InputStream in = SheetsService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
         if (in == null) {
@@ -71,9 +71,9 @@ public class SheetsService {
     
         // Retornar as credenciais adaptadas
         return new HttpCredentialsAdapter(credentials);
-    }*/
+    }
      
-    public HttpRequestInitializer getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+    /*public HttpRequestInitializer getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
     // Recuperar as credenciais codificadas em Base64
     String encodedCredentials = System.getenv("GOOGLE_CREDENTIALS_BASE64");
 
@@ -91,12 +91,12 @@ public class SheetsService {
 
     // Retornar as credenciais como uma instância do HttpCredentialsAdapter
     return new HttpCredentialsAdapter(credentials);
-    }
+    }*/
     
 
     public Student fetchStudentData(String studentId) throws IOException, GeneralSecurityException, StudentNotFoundException {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials())
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     
