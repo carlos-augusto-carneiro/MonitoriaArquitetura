@@ -1,14 +1,13 @@
 # Estágio de build
-FROM maven:3.8.4-openjdk-17 AS build
+FROM maven:3.9.8-eclipse-temurin-17-alpine AS builder
 WORKDIR /app
-COPY . .
+COPY ./pom.xml ./pom.xml
+COPY ./src ./src
 RUN mvn clean package -DskipTests
 
 # Estágio final
 FROM openjdk:17-jdk-slim
 WORKDIR /app
-COPY --from=build /app/target/software-0.0.1-SNAPSHOT.jar /app/software-0.0.1-SNAPSHOT.jar
-# COPY src/main/resources/credentials.json /app/credentials.json
-#ENV GOOGLE_APPLICATION_CREDENTIALS="/app/credentials.json"
+COPY --from=builder /app/target/*.jar /app/software-0.0.1-SNAPSHOT.jar
 EXPOSE 8080
 CMD ["java", "-jar", "software-0.0.1-SNAPSHOT.jar"]
