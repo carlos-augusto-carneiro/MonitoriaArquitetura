@@ -2,7 +2,7 @@
 FROM maven:3.9.8-eclipse-temurin-17-alpine AS builder
 WORKDIR /app
 COPY . .
-RUN mvn clean package -DskipTests
+RUN mvn clean package -X -DskipTests
 
 # Estágio final
 FROM openjdk:17-jdk-slim
