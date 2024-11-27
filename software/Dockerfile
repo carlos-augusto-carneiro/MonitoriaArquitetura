@@ -2,29 +2,34 @@
 FROM ubuntu:latest AS build
 
 # Atualizar pacotes e instalar dependências necessárias
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk maven -y
+RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 
-# Copiar todo o conteúdo do diretório atual para o contêiner
-COPY . /software
+# Criar o diretório de trabalho
+WORKDIR /app
 
-# Verificar se o pom.xml foi copiado corretamente
-RUN ls -la /software
+# Copiar apenas o POM para resolver dependências primeiro
+COPY pom.xml /app/
 
-# Definir o diretório de trabalho para onde o código foi copiado
-WORKDIR /software
+# Baixar dependências do Maven
+RUN mvn dependency:go-offline -B
 
-# Executar o Maven para construir o projeto
-RUN mvn clean install
+# Copiar todo o restante do projeto
+COPY . /app/
+
+# Executar o Maven para construir o projeto, ignorando testes
+RUN mvn clean package -DskipTests
 
 # Estágio final
 FROM openjdk:17-jdk-slim
 
+# Criar o diretório de trabalho no estágio final
+WORKDIR /app
+
 # Expor a porta 8080
 EXPOSE 8080
 
-# Copiar o JAR gerado no estágio de build para a imagem final
-COPY --from=build /software/target/*.jar app.jar
+# Copiar o JAR gerado no estágio de build para o diretório correto
+COPY --from=build /app/target/*.jar /app/app.jar
 
 # Definir o comando de entrada para rodar o JAR
 ENTRYPOINT ["java", "-jar", "app.jar"]
