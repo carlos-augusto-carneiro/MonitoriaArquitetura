@@ -29,7 +29,7 @@ public class SheetsService {
     private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "/etc/secrets/credentials.json";
     private static final String SPREADSHEET_ID = "1eho0FF0iU1HbillqQ91blyPVvVqH2cU3mogJffwntJQ"; 
     private static final String RANGE = "TabelaAlunosPontos!A:AG"; 
     private static final Logger logger = Logger.getLogger(SheetsService.class.getName());
