@@ -1,8 +1,11 @@
 package com.br.monitoria.software.service;
 
-import java.io.FileNotFoundException;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
 import java.util.List;
@@ -29,7 +32,7 @@ public class SheetsService {
     private static final String APPLICATION_NAME = "Google Sheets API Java Quickstart";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
-    private static final String CREDENTIALS_FILE_PATH = "./etc/secrets/credentials.json";
+    private static final String CREDENTIALS_FILE_PATH = "/etc/secrets/credentials.json";
     private static final String SPREADSHEET_ID = "1eho0FF0iU1HbillqQ91blyPVvVqH2cU3mogJffwntJQ"; 
     private static final String RANGE = "TabelaAlunosPontos!A:AG"; 
     private static final Logger logger = Logger.getLogger(SheetsService.class.getName());
@@ -59,16 +62,33 @@ public class SheetsService {
     private static final int COL_TRABALHO_EM_EQUIPE = 21;
  
     private HttpRequestInitializer getCredentials() throws IOException {
-        // Carregar o arquivo JSON da conta de serviço
-        InputStream in = SheetsService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
-        if (in == null) {
-            throw new FileNotFoundException("Arquivo de credenciais não encontrado: " + CREDENTIALS_FILE_PATH);
+        // Verificar se o diretório /etc/secrets existe
+        File secretsDir = new File("/etc/secrets");
+        if (secretsDir.exists() && secretsDir.isDirectory()) {
+            logger.info("Arquivos encontrados em /etc/secrets:");
+            for (String fileName : secretsDir.list()) {
+                logger.info(fileName);
+            }
+        } else {
+            logger.severe("/etc/secrets não existe ou não é um diretório.");
         }
-    
-        // Criar credenciais de conta de serviço
+
+        // Tentativa de carregar credenciais da variável de ambiente
+        InputStream in;
+        String credentialsEnv = System.getenv("GOOGLE_CREDENTIALS_JSON");
+        if (credentialsEnv != null && !credentialsEnv.isEmpty()) {
+            logger.info("Carregando credenciais de variável de ambiente.");
+            in = new ByteArrayInputStream(credentialsEnv.getBytes(StandardCharsets.UTF_8));
+        } else {
+            logger.info("Carregando credenciais de arquivo.");
+            // Tentativa de carregar credenciais do arquivo local
+            in = new FileInputStream(CREDENTIALS_FILE_PATH);
+        }
+
+        // Criar as credenciais
         GoogleCredentials credentials = ServiceAccountCredentials.fromStream(in)
                 .createScoped(SCOPES);
-    
+
         // Retornar as credenciais adaptadas
         return new HttpCredentialsAdapter(credentials);
     }
