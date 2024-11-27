@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/software-0.0.1-SNAPSHOT.jar /app/software-0.0.1-SNAPSHOT.jar
 
 # Copie as credenciais da API do Google para o contêiner
-COPY src/main/resources/credentials.json /app/credentials.json
+# COPY src/main/resources/credentials.json /app/credentials.json
 
 # Defina a variável de ambiente para as credenciais da API do Google
 ENV GOOGLE_APPLICATION_CREDENTIALS="/app/credentials.json"
