@@ -433,13 +433,13 @@
                     (student.atv4 == 1 ? 1 : 0) +
                     (student.atv5 == 1 ? 1 : 0) +
                     (student.Forms == 1 ? 1 : 0) +
-                    (student.PontoForms == 1 ? 1 : 0) >= 7) 
+                    (student.PontoForms == 1 ? 1 : 0) < 7) 
                         and 
                     ((student.bad1 == 1 ? 1 : 0) +
                     (student.bad2 == 1 ? 1 : 0) +
                     (student.bad3 == 1 ? 1 : 0) +
                     (student.bad4 == 1 ? 1 : 0) +
-                    (student.bad5 == 1 ? 1 : 0) >= 3)}">
+                    (student.bad5 == 1 ? 1 : 0) <= 3)}">
                     <div class="card-body">
                         <h5 class="card-title">Pontos insuficientes</h5>
                         <p class="card-text">Você não tem pontos suficientes para trocar por 0,5 pontos na prova ou no trabalho. Continue se esforçando!</p>
