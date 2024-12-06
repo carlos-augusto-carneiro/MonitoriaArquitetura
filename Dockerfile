@@ -1,5 +1,5 @@
 # Estágio de build
-FROM ubuntu:latest AS build
+FROM ubuntu:20.04 AS build
 
 # Atualizar pacotes e instalar dependências necessárias
 RUN apt-get update && apt-get install -y openjdk-17-jdk maven
