@@ -287,9 +287,9 @@
                   <img th:if="${student.bad5 == 1}" class="adesivo img-fluid" style="top: 32.8%; left: 76.6%;" src="/images/Validação.png" alt="Validação 5 Imagem">
                   <img th:if="${student.Learn == 1}" class="adesivo img-fluid" style="top: 44.8%; left: 52.3%;" src="/images/Conquista Learn.png" alt="Learn Conquista">
                   <img th:if="${student.Learn == 2}" class="adesivo img-fluid" style="top: 44.8%; left: 52.3%;" src="/images/Atividade Learn.png" alt="Ativiade Learn">
-                  <img th:if="${student.Quizz == 1}" class="adesivo img-fluid" style="top: 44.8%; left: 37.9%;" src="/images/Atividade kahoot.png" alt="Validação 5 Imagem">
-                  <img th:if="${student.PontoForms == 1}" class="adesivo img-fluid" style="top: 44.8%; left: 22.3%;" src="/images/Atividade kahoot.png" alt="Validação 5 Imagem">
-                  <img th:if="${student.Forms == 1}" class="adesivo img-fluid" style="top: 44.8%; left: 68%;" src="/images/Atividade kahoot.png" alt="Validação 5 Imagem">
+                  <img th:if="${student.Quizz == 1}" class="adesivo img-fluid" style="top: 44.8%; left: 37.9%;" src="/images/AtividadeKahoot.png" alt="Quizz">
+                  <img th:if="${student.PontoForms == 1}" class="adesivo img-fluid" style="top: 44.8%; left: 22.3%;" src="/images/AtividadeKahoot.png" alt="Perfil">
+                  <img th:if="${student.Forms == 1}" class="adesivo img-fluid" style="top: 44.8%; left: 68%;" src="/images/AtividadeKahoot.png" alt="Forms">
                   <img th:if="${student.otimosExemplos == 1}" class="adesivo img-fluid" style="top: 59.4%; left: 42.6%; width: 20%;" src="/images/Ótimos Exemplos.png" alt="Validação 5 Imagem">
                   <img th:if="${student.bonsRecursos == 1}" class="adesivo img-fluid" style="top: 60.4%; left: 69.6%; width: 20%;" src="/images/Bons Recursos.png" alt="Validação 5 Imagem">
                   <img th:if="${student.cumprirOTempo == 1}" class="adesivo img-fluid" style="top: 64.4%; left: 15.6%; width: 20%; transform: rotate(-13deg);" src="/images/Cumprir o Tempo.png" alt="Validação 5 Imagem">
@@ -341,6 +341,107 @@
                     </div>
                 </div>
             </div>
+
+            <hr class="featurette-divider mt-3 mb-3">
+            <h1>Pontuação</h1>
+            <div class="text-overlay-container mt-4">
+                <div class="card" th:if="${
+                    (student.atv1 == 1 ? 1 : 0) +
+                    (student.atv2 == 1 ? 1 : 0) +
+                    (student.atv3 == 1 ? 1 : 0) +
+                    (student.atv4 == 1 ? 1 : 0) +
+                    (student.atv5 == 1 ? 1 : 0) +
+                    (student.bad1 == 1 ? 1 : 0) +
+                    (student.bad2 == 1 ? 1 : 0) +
+                    (student.bad3 == 1 ? 1 : 0) + 
+                    (student.bad4 == 1 ? 1 : 0) +
+                    (student.bad5 == 1 ? 1 : 0) >= 10
+                }">
+                    <div class="card-body">
+                        <h5 class="card-title">1 questão da prova</h5>
+                        <p class="card-text">Você pode gastar todas atividades e validações por 1 questão da prova</p>
+                    </div>
+                </div>
+                <div class="alert alert-warning" th:if="${
+                    (student.atv1 == 1 ? 1 : 0) +
+                    (student.atv2 == 1 ? 1 : 0) +
+                    (student.atv3 == 1 ? 1 : 0) +
+                    (student.atv4 == 1 ? 1 : 0) +
+                    (student.atv5 == 1 ? 1 : 0) +
+                    (student.bad1 == 1 ? 1 : 0) +
+                    (student.bad2 == 1 ? 1 : 0) +
+                    (student.bad3 == 1 ? 1 : 0) + 
+                    (student.bad4 == 1 ? 1 : 0) +
+                    (student.bad5 == 1 ? 1 : 0) < 10
+                }">
+                    <div class="card-body">
+                        <h5 class="card-title">1 questão da prova</h5>
+                        <p class="card-text">Você não pode gastar todas atividades e validações por 1 questão da prova. Continue se esforçando!</p>
+                        <img class="adesivo_perfil img-fluid" src="/images/cry-choro.gif" alt="Sem Perfil Imagem">
+                    </div>
+                </div>
+                <div class="card" th:if="${(student.Quizz == 1 ? 1 : 0) +
+                    (student.Learn == 1 ? 1 : 0) +
+                    (student.otimosExemplos == 1 ? 1 : 0) +
+                    (student.bonsRecursos == 1 ? 1 : 0) +
+                    (student.cumprirOTempo == 1 ? 1 : 0) +
+                    (student.baseTeorica == 1 ? 1 : 0) +
+                    (student.trabalhoEmEquipe == 1 ? 1 : 0) >= 3}">
+                    <div class="card-body">
+                        <h5 class="card-title">0,5 pontos</h5>
+                        <p class="card-text">Você pode gastar 3 destaques (Destaques: 1 lugar no learn, 1 lugar no Quizz, trabalho em equipe, bons recursos, cumprir o tempo, ótimos exemplos, base) por 0,5 pontos na prova ou no trabalho. NÃO é cumulativo.</p>
+                    </div>
+                </div>
+                <div class="alert alert-warning" th:if="${(student.Quizz == 1 ? 1 : 0) +
+                    (student.Learn == 1 ? 1 : 0) +
+                    (student.otimosExemplos == 1 ? 1 : 0) +
+                    (student.bonsRecursos == 1 ? 1 : 0) +
+                    (student.cumprirOTempo == 1 ? 1 : 0) +
+                    (student.baseTeorica == 1 ? 1 : 0) +
+                    (student.trabalhoEmEquipe == 1 ? 1 : 0) < 3}">
+                    <div class="card-body">
+                        <h5 class="card-title">0,5 pontos</h5>
+                        <p class="card-text">Você não tem pontos suficientes para trocar por 0,5 pontos na prova ou no trabalho. Continue se esforçando!</p>
+                        <img class="adesivo_perfil img-fluid" src="/images/last-day-of-school.gif" alt="Sem Perfil Imagem">
+                    </div>
+                </div>
+                <div class="card" th:if="${((student.Quizz == 2 ? 1 : 0) +
+                    (student.Learn == 2 ? 1 : 0) +
+                    (student.atv1 == 1 ? 1 : 0) +
+                    (student.atv2 == 1 ? 1 : 0) +
+                    (student.atv3 == 1 ? 1 : 0) +
+                    (student.atv4 == 1 ? 1 : 0) +
+                    (student.atv5 == 1 ? 1 : 0) +
+                    (student.Forms == 1 ? 1 : 0) +
+                    (student.PontoForms == 1 ? 1 : 0) >= 7) 
+                        and 
+                    ((student.bad1 == 1 ? 1 : 0) +
+                    (student.bad2 == 1 ? 1 : 0) +
+                    (student.bad3 == 1 ? 1 : 0) +
+                    (student.bad4 == 1 ? 1 : 0) +
+                    (student.bad5 == 1 ? 1 : 0) >= 3)}">
+                    <div class="card-body">
+                        <h5 class="card-title">0,5 pontos</h5>
+                        <p class="card-text">Você pode gastar 7 de engajamento (Badges de Atividades ou de paticipações no Learn ou no Quizz) com mais 3 de validação (Badges de validação, ao cumprir uma atividade com extio). NÃO é cumulativo.</p>
+                    </div>
+                </div>
+                <div class="alert alert-warning" th:if="${(student.Quizz == 1 ? 1 : 0) +
+                    (student.Learn == 1 ? 1 : 0) +
+                    (student.otimosExemplos == 1 ? 1 : 0) +
+                    (student.bonsRecursos == 1 ? 1 : 0) +
+                    (student.cumprirOTempo == 1 ? 1 : 0) +
+                    (student.baseTeorica == 1 ? 1 : 0) +
+                    (student.trabalhoEmEquipe == 1 ? 1 : 0) < 3}">
+                    <div class="card-body">
+                        <h5 class="card-title">Pontos insuficientes</h5>
+                        <p class="card-text">Você não tem pontos suficientes para trocar por 0,5 pontos na prova ou no trabalho. Continue se esforçando!</p>
+                        <img class="adesivo_perfil img-fluid" src="/images/crying-crying-meme.gif" alt="Sem Perfil Imagem">
+                    </div>
+                </div>
+            </div>
+
+
+            <hr class="featurette-divider mt-3 mb-3">
         <footer class="container">
             <p>© RamSof S.A., 2024 · <a href="#">Voltar ao topo</a></p>
         </footer>
