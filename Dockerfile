@@ -16,6 +16,10 @@ RUN mvn dependency:go-offline -B
 # Copiar todo o restante do projeto
 COPY . /app/
 
+COPY src/main/resources/static /app/static
+
+RUN chmod -R 755 /app/src/main/resources/static/images
+
 # Executar o Maven para construir o projeto, ignorando testes
 RUN mvn clean package -DskipTests
 
