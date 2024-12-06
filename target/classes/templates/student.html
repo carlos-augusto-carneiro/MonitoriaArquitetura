@@ -425,13 +425,21 @@
                         <p class="card-text">Você pode gastar 7 de engajamento (Badges de Atividades ou de paticipações no Learn ou no Quizz) com mais 3 de validação (Badges de validação, ao cumprir uma atividade com extio). NÃO é cumulativo.</p>
                     </div>
                 </div>
-                <div class="alert alert-warning" th:if="${(student.Quizz == 1 ? 1 : 0) +
-                    (student.Learn == 1 ? 1 : 0) +
-                    (student.otimosExemplos == 1 ? 1 : 0) +
-                    (student.bonsRecursos == 1 ? 1 : 0) +
-                    (student.cumprirOTempo == 1 ? 1 : 0) +
-                    (student.baseTeorica == 1 ? 1 : 0) +
-                    (student.trabalhoEmEquipe == 1 ? 1 : 0) < 3}">
+                <div class="alert alert-warning" th:if="${((student.Quizz == 2 ? 1 : 0) +
+                    (student.Learn == 2 ? 1 : 0) +
+                    (student.atv1 == 1 ? 1 : 0) +
+                    (student.atv2 == 1 ? 1 : 0) +
+                    (student.atv3 == 1 ? 1 : 0) +
+                    (student.atv4 == 1 ? 1 : 0) +
+                    (student.atv5 == 1 ? 1 : 0) +
+                    (student.Forms == 1 ? 1 : 0) +
+                    (student.PontoForms == 1 ? 1 : 0) >= 7) 
+                        and 
+                    ((student.bad1 == 1 ? 1 : 0) +
+                    (student.bad2 == 1 ? 1 : 0) +
+                    (student.bad3 == 1 ? 1 : 0) +
+                    (student.bad4 == 1 ? 1 : 0) +
+                    (student.bad5 == 1 ? 1 : 0) >= 3)}">
                     <div class="card-body">
                         <h5 class="card-title">Pontos insuficientes</h5>
                         <p class="card-text">Você não tem pontos suficientes para trocar por 0,5 pontos na prova ou no trabalho. Continue se esforçando!</p>
