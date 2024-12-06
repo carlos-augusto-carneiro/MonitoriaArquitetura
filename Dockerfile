@@ -1,30 +1,23 @@
 # Estágio de build
-FROM ubuntu:20.04 AS build
-
-# Atualizar pacotes e instalar dependências necessárias
-RUN apt-get update && apt-get install -y openjdk-17-jdk maven
+FROM maven:3.9.4-eclipse-temurin-17-alpine AS build
 
 # Criar o diretório de trabalho
 WORKDIR /app
 
 # Copiar apenas o POM para resolver dependências primeiro
-COPY pom.xml /app/
+COPY pom.xml .
 
 # Baixar dependências do Maven
 RUN mvn dependency:go-offline -B
 
 # Copiar todo o restante do projeto
-COPY . /app/
-
-COPY src/main/resources/static /app/static
-
-RUN chmod -R 755 /app/src/main/resources/static/images
+COPY . .
 
 # Executar o Maven para construir o projeto, ignorando testes
 RUN mvn clean package -DskipTests
 
 # Estágio final
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
 # Criar o diretório de trabalho no estágio final
 WORKDIR /app
