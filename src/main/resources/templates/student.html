@@ -407,6 +407,7 @@
                 </div>
                 <div class="card" th:if="${((student.Quizz == 2 ? 1 : 0) +
                     (student.Learn == 2 ? 1 : 0) +
+                    (student.Learn == 1 ? 1 : 0) +
                     (student.atv1 == 1 ? 1 : 0) +
                     (student.atv2 == 1 ? 1 : 0) +
                     (student.atv3 == 1 ? 1 : 0) +
@@ -427,6 +428,7 @@
                 </div>
                 <div class="alert alert-warning" th:if="${((student.Quizz == 2 ? 1 : 0) +
                     (student.Learn == 2 ? 1 : 0) +
+                    (student.Learn == 1 ? 1 : 0) +
                     (student.atv1 == 1 ? 1 : 0) +
                     (student.atv2 == 1 ? 1 : 0) +
                     (student.atv3 == 1 ? 1 : 0) +
