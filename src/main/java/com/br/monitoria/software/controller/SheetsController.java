@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.br.monitoria.software.dto.Student;
+import com.br.monitoria.software.dto.Student2;
 import com.br.monitoria.software.exception.StudentNotFoundException;
 import com.br.monitoria.software.service.SheetsService;
 
@@ -31,6 +32,26 @@ public class SheetsController {
             
             // Return the view name
             return "student";
+        } catch (IOException | GeneralSecurityException e) {
+            model.addAttribute("error", "Erro ao buscar dados do estudante: " + e.getMessage());
+            return "error";
+        } catch (StudentNotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "error";
+        }
+    }
+
+    @GetMapping("/sheets/student2")
+    public String getStudentData2(@RequestParam("studentId") String studentId, Model model) {
+        try {
+            // Fetch data from the spreadsheet using the studentId
+            Student2 student = sheetsService.fetchStudentData2(studentId);
+            
+            // Add the student data to the model
+            model.addAttribute("student2", student);
+            
+            // Return the view name
+            return "student2";
         } catch (IOException | GeneralSecurityException e) {
             model.addAttribute("error", "Erro ao buscar dados do estudante: " + e.getMessage());
             return "error";

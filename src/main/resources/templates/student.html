@@ -168,75 +168,139 @@
             max-width: 90%;
         }
 
-          @media (max-width: 767px) {
-              .adesivo {
-                  width: 13%; /* Ajuste para dispositivos menores */
-              }
-              .adesivo_maior{
-                    width: 14%;;
-              }
-              .text-overlay {
-                font-size: 0.9rem; /* Ajuste do tamanho da fonte para dispositivos menores */
+        @media (max-width: 767px) {
+            .adesivo {
+                width: 13%; /* Ajuste para dispositivos menores */
+            }
+            .adesivo_maior{
+                width: 14%;;
+            }
+            .text-overlay {
+            font-size: 0.9rem; /* Ajuste do tamanho da fonte para dispositivos menores */
+        }
+        .matricula {
+            top: 4%;
+            left: 4%;
+        }
+        .nome {
+            top: 8%;
+            left: 4%;
+        }
+        } 
+        @media (max-width: 480px) {
+            .adesivo {
+                width: 12%; /* Ajuste para telas bem pequenas */
+            }
+            .adesivo_maior{
+                width: 13%;;
+            }
+            .text-overlay {
+            font-size: 0.8rem; /* Ajuste do tamanho da fonte para telas bem pequenas */
             }
             .matricula {
-                top: 4%;
-                left: 4%;
-            }
-            .nome {
-                top: 8%;
-                left: 4%;
-            }
-          } 
-          @media (max-width: 480px) {
-              .adesivo {
-                  width: 12%; /* Ajuste para telas bem pequenas */
-              }
-              .adesivo_maior{
-                    width: 13%;;
-              }
-              .text-overlay {
-                font-size: 0.8rem; /* Ajuste do tamanho da fonte para telas bem pequenas */
-                }
-                .matricula {
-                top: 95%;
-                left: 70%;
-                font-size: 0.8rem;
-            }
-            .nome {
-                top: 95%;
-                left: 20%;
-                font-size: 0.8rem;
-            }
-          }
+            top: 95%;
+            left: 70%;
+            font-size: 0.8rem;
+        }
+        .nome {
+            top: 95%;
+            left: 20%;
+            font-size: 0.8rem;
+        }
+        }
 
-          @media (max-width: 405px) {
+        @media (max-width: 405px) {
+        
+            .text-overlay {
+            font-size: 0.7rem; /* Ajuste do tamanho da fonte para telas muito pequenas */
+            }
+            .matricula {
+                top: 3%;
+                left: 3%;
+            }
+            .nome {
+                top: 6%;
+                left: 2%;
+            }
+        }
+        @media (max-width: 383px) {
+            .text-overlay {
+                font-size: 0.8rem;
+            }
+            .nome {
+                top: 89% !important;
+                left: 25% !important;
+            }
+            .matricula {
+                top: 89% !important;
+                left: 71% !important;
+            }
+            .adesivo {
+                top: calc(23% + 15%) !important;
+            }
+
+            .adesivo:nth-of-type(2),
+            .adesivo:nth-of-type(4),
+            .adesivo:nth-of-type(6),
+            .adesivo:nth-of-type(8),
+            .adesivo:nth-of-type(10) {
+                top: calc(33.3% - 12.5%) !important;
+            }
+            .adesivo:nth-of-type(2){
+                left: calc(13.4% + 1%) !important;
+            }
+            .adesivo:nth-of-type(4) {
+                left: calc(28.9% + 1%) !important;
+            }
+            .adesivo:nth-of-type(8) {
+                left: calc(60.7% - 1%) !important;
+            }
+            .adesivo:nth-of-type(10) {
+                left: calc(76.6% - 1%) !important;
+            }
+
+            .adesivo:nth-of-type(3),
+            .adesivo:nth-of-type(5),
+            .adesivo:nth-of-type(7),
+            .adesivo:nth-of-type(9),
+            .adesivo:nth-of-type(11) {
+                top: calc(32.8% - 1%) !important;
+            }
             
-              .text-overlay {
-                font-size: 0.7rem; /* Ajuste do tamanho da fonte para telas muito pequenas */
-                }
-                .matricula {
-                    top: 3%;
-                    left: 3%;
-                }
-                .nome {
-                    top: 6%;
-                    left: 2%;
-                }
-          }
-          @media (max-width: 376px) {
-              
-              .text-overlay {
-                font-size: 0.5rem; /* Ajuste do tamanho da fonte para telas muito pequenas */
-                }
-                .matricula {
-                    top: 3%;
-                    left: 3%;
-                }
-                .nome {
-                    top: 6%;
-                    left: 2%;
-                }
-          }
+            .adesivo:nth-of-type(3) {
+                left: calc(13.5% + 1%) !important;
+            }
+            .adesivo:nth-of-type(5) {
+                left: calc(28.9% + 1%) !important;
+            }
+            .adesivo:nth-of-type(9) {
+                left: calc(60.7% - 1%) !important;
+            }
+            .adesivo:nth-of-type(11) {
+                left: calc(76.6% - 1%) !important;
+            }
+            .adesivo:nth-of-type(12),
+            .adesivo:nth-of-type(13),
+            .adesivo:nth-of-type(14),
+            .adesivo:nth-of-type(15){
+                top: calc(44.8% - 1%) !important;
+            }
+            .adesivo:nth-of-type(16){
+                top: calc(59.4% - 3%) !important;
+            }
+            .adesivo:nth-of-type(17){
+                top: calc(59.4% - 2%) !important;
+            }
+            .adesivo:nth-of-type(18){
+                top: calc(60.4% - 2%) !important;
+            }
+            .adesivo:nth-of-type(19){
+                top: calc(64.4% + 7%) !important;
+            }
+            .adesivo:nth-of-type(20){
+                top: calc(75.4% - 2%) !important;
+            }
+        }
       </style>
     </head>
 <body>
@@ -295,9 +359,6 @@
                   <img th:if="${student.cumprirOTempo == 1}" class="adesivo img-fluid" style="top: 64.4%; left: 15.6%; width: 20%; transform: rotate(-13deg);" src="/images/Cumprir o Tempo.png" alt="Validação 5 Imagem">
                   <img th:if="${student.baseTeorica == 1}" class="adesivo img-fluid" style="top: 75.4%; left: 31.6%; width: 10.5%;" src="/images/Base Teórica.png" alt="Validação 5 Imagem">
                   <img th:if="${student.trabalhoEmEquipe == 1}" class="adesivo img-fluid" style="top: 73.4%; left: 58.6%; width: 20%;" src="/images/Trabalho em equipe.png" alt="Validação 5 Imagem">
-
-                    
-
               </div>
 
               <hr class="featurette-divider mt-3 mb-3">
@@ -440,7 +501,14 @@
                 </div>
             </div>
 
-
+            <hr class="featurette-divider mt-3 mb-3">
+            <div>
+                <h1>Vê a cartela 2</h1>
+                <form class="d-flex" role="search" th:action="@{/sheets/student2}" method="get">
+                    <input type="hidden" name="studentId" th:value="${student.matricula}" />
+                    <button class="btn btn-outline-success buttom-custom" type="submit">Cartela 2</button>
+                </form>
+            </div>
             <hr class="featurette-divider mt-3 mb-3">
         <footer class="container">
             <p>© RamSof S.A., 2024 · <a href="#">Voltar ao topo</a></p>

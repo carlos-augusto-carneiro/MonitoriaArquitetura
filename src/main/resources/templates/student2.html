@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+        <title>ArquiteturaSoft</title>
+        <style>
+          body {
+              background-color: #F8F8FF;
+              margin: 0;
+              padding: 0;
+          }
+
+          .navbar-custom-font {
+              font-size: 1.25rem;
+              color: #fff;
+          }
+
+          .navbar-custom-font:hover {
+              color: #FDF5E6;
+          }
+
+          .navbar-custom-color {
+              background-color: #87CEEB !important;
+          }
+
+          .navbar-brand {
+              font-size: 1.5rem;
+          }
+
+          .navbar-brand:hover {
+              color: #FDF5E6;
+          }
+
+          .nav-link {
+              font-size: 1.25rem;
+          }
+
+          .nav-link:hover {
+              color: #FDF5E6;
+          }
+
+          .nav-link.disabled {
+              color: rgba(255, 255, 255, 0.5);
+          }
+
+          .buttom-custom {
+              display: inline-block;
+              padding: 5px 7px;
+              font-size: 24px;
+              cursor: pointer;
+              text-align: center;
+              text-decoration: none;
+              outline: none;
+              color: #fff;
+              background-color: #87CEEB;
+              border: none;
+              border-radius: 15px;
+              box-shadow: 0 3px #999;
+          }
+
+          .buttom-custom:hover {
+              background-color: #1E90FF;
+          }
+
+          .buttom-custom:active {
+              background-color: hsl(210, 100%, 56%);
+              box-shadow: 0 1px #666;
+              transform: translateY(4px);
+          }
+
+          .color-fundo {
+              background-color: #F5F5F5;
+          }
+
+          .paragrafo-efect {
+              box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+          }
+
+          .img-border {
+              border: 3px solid #87CEEB;
+              border-radius: 10px;
+              box-shadow: 0 12px 10px 0 rgba(0, 0, 0, 0.2);
+          }
+          @font-face {
+            font-family: 'CrayonHand';
+            src: url('/fonts/CrayonHandRegular2016Demo.ttf') format('truetype');
+            }
+
+          .image-container {
+              position: relative;
+              width: 100%;
+              max-width: 575px;
+              height: auto;
+              margin: 0 auto;
+          }
+
+          .cartela {
+              width: 100%;
+              height: auto;
+              display: block; /* Adiciona display block para evitar espaços extras */
+          }
+
+          .adesivo {
+              position: absolute;
+              width: 12%;
+              height: auto;
+          }
+
+          .adesivo_maior {
+              width: 15%;
+          }
+          .text-overlay {
+            position: absolute;
+            color:  #4B4B4B;
+            font-size: 1rem;
+            font-weight: normal;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
+            font-family: 'CrayonHand', sans-serif; /* Aplicando a fonte personalizada */
+        }
+        .matricula {
+            top: 5%;
+            left: 5%;
+        }
+        .nome {
+            top: 10%;
+            left: 5%;
+        }
+        .perfil {
+            position: absolute;
+            z-index: 2; /* Define o z-index para ficar acima do retângulo */
+        }
+        .text-overlay-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+        .card {
+            margin: 10px 0;
+            width: 70%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .card-title {
+            font-size: 1.25rem;
+            margin-bottom: 10px;
+        }
+        .card-text {
+            font-size: 1rem;
+        }
+        .adesivo {
+            margin-top: 10px;
+            max-width: 100%;
+            height: auto;
+        }
+        .text-overlay {
+            margin: 10px 0;
+            max-width: 90%;
+        }
+
+        @media (max-width: 767px) {
+            .adesivo {
+                width: 13%; /* Ajuste para dispositivos menores */
+            }
+            .adesivo_maior {
+                width: 14%;
+            }
+            .text-overlay {
+                font-size: 0.9rem; /* Ajuste do tamanho da fonte para dispositivos menores */
+            }
+            .matricula {
+                top: 4%;
+                left: 4%;
+            }
+            .nome {
+                top: 8%;
+                left: 4%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .adesivo {
+                width: 12%; /* Ajuste para telas bem pequenas */
+            }
+            .adesivo_maior {
+                width: 13%;
+            }
+            .text-overlay {
+                font-size: 0.8rem;
+            }
+            .matricula {
+                top: 95%;
+                left: 70%;
+            }
+            .nome {
+                top: 95%;
+                left: 20%;
+            }
+        }
+
+        @media (max-width: 405px) {
+            .text-overlay {
+                font-size: 0.7rem; /* Ajuste do tamanho da fonte para telas muito pequenas */
+            }
+        }
+
+        @media (max-width: 383px) {
+            .text-overlay {
+                font-size: 0.8rem;
+            }
+            .nome {
+                top: 89% !important;
+                left: 25% !important;
+            }
+            .matricula {
+                top: 89% !important;
+                left: 71% !important;
+            }
+            .adesivo {
+                top: calc(23% + 9%) !important;
+            }
+
+            .adesivo:nth-of-type(2),
+            .adesivo:nth-of-type(4),
+            .adesivo:nth-of-type(6),
+            .adesivo:nth-of-type(8) {
+                top: calc(33.3% - 12%) !important;
+            }
+            .adesivo:nth-of-type(8){
+                left: calc(68.5% - 1%) !important;
+            }
+
+            .adesivo:nth-of-type(9) {
+                top: calc(42.8% - 11%) !important;
+            }
+
+            .adesivo:nth-of-type(10) {
+                top: calc(42.9% - 1%) !important;
+            }
+
+            .adesivo:nth-of-type(11) {
+                top: calc(62.5% - 20%) !important;
+            }
+
+            .adesivo:nth-of-type(12) {
+                top: calc(62.8% - 1%) !important;
+            }
+
+            .adesivo:nth-of-type(13) {
+                top: calc(71.6% - 10%) !important;
+            }
+            .adesivo:nth-of-type(15) {
+                top: calc(71.6% + 2%) !important;
+            }
+
+            .adesivo:nth-of-type(14) {
+                top: calc(74.2% - 1%) !important;
+            }
+            .adesivo:nth-of-type(16) {
+                top: calc(74.2% - 1%) !important;
+            }
+
+        }
+      </style>
+    </head>
+<body>
+    <header class="color-fundo">
+        <nav class="navbar navbar-expand-md navbar-custom-color">
+          <div class="container-fluid">
+            <a class="navbar-brand navbar-custom-font" href="/">ArquiteturaSoft</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link disabled navbar-custom-font" aria-disabled="true">Avaliação 1</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link disabled navbar-custom-font" aria-disabled="true">Avaliação 2</a>
+                </li>
+              </ul>
+              <form class="d-flex" role="search" th:action="@{/sheets/student2}" method="get">
+                <input class="form-control me-2" type="number" name="studentId" placeholder="Sua matricula" aria-label="Search">
+                <button class="btn btn-outline-success buttom-custom" type="submit">Buscar</button>
+            </form>
+            </div>
+          </div>
+        </nav>
+    </header>
+    <main role="main">
+        <div class="container">
+            <h1>Dados do Estudante</h1>
+            <div class="row featurette" data-aos="fade-right" id="student-data">
+                <!-- <p th:text="'Matricula: ' + ${student.matricula}"></p>
+                
+                <p th:text="'Ponto Form perfil: ' + ${student.pontoForms}"></p> -->
+                <div class="image-container">
+                  <img class="cartela img-fluid" src="/images/Cartela AP2 Carlos.png" alt="Cartela">
+                  <p class="text-overlay matricula" th:text="${student2.matricula2}" style="top: 90.8%; left: 73.9%;"></p>
+                  <p class="text-overlay nome" th:text="${student2.formattedNome}" style="top: 90.8%; left: 23.9%;"></p>
+                  <img th:if="${student2.entrevista == 1}" class="adesivo img-fluid" style="top: 23%; left: 21.6%;" src="/images/Atividade Entrevista.png" alt="Atividade 1 Imagem">
+                  <img th:if="${student2.valEntrevista == 1}" class="adesivo img-fluid" style="top: 33.3%; left: 21.6%;" src="/images/Validação.png" alt="Validação 1 Imagem">
+                  <img th:if="${student2.col4 == 1}" class="adesivo img-fluid" style="top: 23%; left: 36.9%;" src="/images/Atividade 4+1 Modelagem.png" alt="Atividade 2 Imagem">
+                  <img th:if="${student2.val4 == 1}" class="adesivo img-fluid" style="top: 33.3%; left: 36.9%;" src="/images/Validação.png" alt="Validação 2 Imagem">
+                  <img th:if="${student2.c4 == 1}" class="adesivo img-fluid" style="top: 23%; left: 52.7%;" src="/images/Atividade C4 Modelagem.png" alt="Atividade 3 Imagem">
+                  <img th:if="${student2.valC4 == 1}" class="adesivo img-fluid" style="top: 33.3%; left: 52.7%;" src="/images/Validação.png" alt="Validação 3 Imagem">
+                  <img th:if="${student2.avaliacaoDeArq == 1}" class="adesivo img-fluid" style="top: 23%; left: 68.7%;" src="/images/Atividade.png" alt="Atividade 4 Imagem">
+                  <img th:if="${student2.valAvaliacaoDeArq == 1}" class="adesivo img-fluid" style="top: 33.3%; left: 68.7%;" src="/images/Validação.png" alt="Validação 4 Imagem">
+                  <img th:if="${student2.dojo4 == 1}" class="adesivo img-fluid" style="top: 42.8%; left: 36.9%;" src="/images/Atividade DOJO 4+1.png" alt="Learn Conquista">
+                  <img th:if="${student2.dojoC4 == 1}" class="adesivo img-fluid" style="top: 42.9%; left: 52.3%;" src="/images/Atividade DOJO C4.png" alt="Ativiade Learn">
+                  <img th:if="${student2.melhorEntrevista == 1}" class="adesivo img-fluid" style="top: 62.5%; left: 28.3%; width: 17%;" src="/images/Melhor Entrevista.png" alt="Perfil">
+                  <img th:if="${student2.criatividade == 1}" class="adesivo img-fluid" style="top: 62.8%; left: 60.2%; width: 17%;" src="/images/Criatividade.png" alt="Forms">
+                  <img th:if="${student2.rigorArquit == 1}" class="adesivo img-fluid" style="top: 71.6%; left: 14.6%; width: 17%;" src="/images/Rigor Arquitetural.png" alt="Validação 5 Imagem">
+                  <img th:if="${student2.completude == 1}" class="adesivo img-fluid" style="top: 74.2%; left: 44.6%; width: 17%;" src="/images/Completude.png" alt="Validação 5 Imagem">
+                  <img th:if="${student2.corretudeTec == 1}" class="adesivo img-fluid" style="top: 71.6%; left: 69.6%; width: 15%; transform: rotate(-13deg);" src="/images/Corretude Técnica.png" alt="Validação 5 Imagem">
+                </div>
+
+
+
+
+            <hr class="featurette-divider mt-3 mb-3">
+            <div>
+                <h1>Vê a cartela 1</h1>
+                <form class="d-flex" role="search" th:action="@{/sheets/student}" method="get">
+                    <input type="hidden" name="studentId" th:value="${student2.matricula2}" />
+                    <button class="btn btn-outline-success buttom-custom" type="submit">Cartela 1</button>
+                </form>                
+            </div>
+
+            <hr class="featurette-divider mt-3 mb-3">
+        <footer class="container">
+            <p>© RamSof S.A., 2024 · <a href="#">Voltar ao topo</a></p>
+        </footer>
+    </main>  
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+</body>
+</html>
