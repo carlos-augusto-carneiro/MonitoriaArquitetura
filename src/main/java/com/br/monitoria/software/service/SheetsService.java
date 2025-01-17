@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 import com.br.monitoria.software.dto.Student;
+import com.br.monitoria.software.dto.Student2;
 import com.br.monitoria.software.exception.StudentNotFoundException;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -35,6 +36,7 @@ public class SheetsService {
     private static final String CREDENTIALS_FILE_PATH = "/etc/secrets/credentials.json";
     private static final String SPREADSHEET_ID = "1eho0FF0iU1HbillqQ91blyPVvVqH2cU3mogJffwntJQ"; 
     private static final String RANGE = "TabelaAlunosPontos!A:AG"; 
+    private static final String RANGE_2 = "TabelaAlunosPontos2!A:AG";
     private static final Logger logger = Logger.getLogger(SheetsService.class.getName());
 
     // Column indices
@@ -60,6 +62,24 @@ public class SheetsService {
     private static final int COL_CUMPRIR_O_TEMPO = 19;
     private static final int COL_BASE_TEORICA = 20;
     private static final int COL_TRABALHO_EM_EQUIPE = 21;
+
+    private static final int COL_MATRICULA2 = 0;
+    private static final int COL_NOME2 = 1;
+    private static final int COL_ENTREVISTA = 2;
+    private static final int COL_VAL_ENTREVISTA = 3;
+    private static final int COL_4 = 4;
+    private static final int COL_VAL_4 = 5;
+    private static final int COL_C4 = 6;
+    private static final int COL_VAL_C4 = 7;
+    private static final int COL_AVALIACAO_DE_ARQ = 8;
+    private static final int COL_VAL_AVALIACAO_DE_ARQ = 9;
+    private static final int COL_DOJO_4 = 10;
+    private static final int COL_DOJO_C4 = 11;
+    private static final int COL_MELHOR_ENTREVISTA = 13;
+    private static final int COL_CRIATIVIDADE = 14;
+    private static final int COL_RIGOR_ARQUIT = 15;
+    private static final int COL_COMPLETUDE = 16;
+    private static final int COL_CORRETUDE_TEC = 17;
  
     private HttpRequestInitializer getCredentials() throws IOException {
         // Verificar se o diretório /etc/secrets existe
@@ -158,6 +178,44 @@ public class SheetsService {
         throw new StudentNotFoundException("Desculpe, não encontramos um estudante com a matrícula fornecida. Por favor, verifique a matrícula e tente novamente ou tente falar com o monitor.");
     }
     
+    public Student2 fetchStudentData2(String studentId) throws IOException, GeneralSecurityException, StudentNotFoundException {
+        final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+        Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials())
+                .setApplicationName(APPLICATION_NAME)
+                .build();
+    
+        ValueRange response = service.spreadsheets().values().get(SPREADSHEET_ID, RANGE_2).execute();
+        List<List<Object>> values = response.getValues();
+    
+        if (values == null || values.isEmpty()) {
+            throw new StudentNotFoundException("Estudante com essa matrícula " + studentId + " não está cadastrado na turma.");
+        }
+    
+        for (List<Object> row : values) {
+            if (row.get(COL_MATRICULA2).toString().equals(studentId)) {
+                Student2 student = new Student2();
+                student.setMatricula2(Integer.parseInt(row.get(COL_MATRICULA2).toString()));
+                student.setNome2(getValue(row, COL_NOME2));
+                student.setEntrevista(parseInteger(getValue(row, COL_ENTREVISTA)));
+                student.setValEntrevista(parseInteger(getValue(row, COL_VAL_ENTREVISTA)));
+                student.setCol4(parseInteger(getValue(row, COL_4)));
+                student.setVal4(parseInteger(getValue(row, COL_VAL_4)));
+                student.setC4(parseInteger(getValue(row, COL_C4)));
+                student.setValC4(parseInteger(getValue(row, COL_VAL_C4)));
+                student.setAvaliacaoDeArq(parseInteger(getValue(row, COL_AVALIACAO_DE_ARQ)));
+                student.setValAvaliacaoDeArq(parseInteger(getValue(row, COL_VAL_AVALIACAO_DE_ARQ)));
+                student.setDojo4(parseInteger(getValue(row, COL_DOJO_4)));
+                student.setDojoC4(parseInteger(getValue(row, COL_DOJO_C4)));
+                student.setMelhorEntrevista(parseInteger(getValue(row, COL_MELHOR_ENTREVISTA)));
+                student.setCriatividade(parseInteger(getValue(row, COL_CRIATIVIDADE)));
+                student.setRigorArquit(parseInteger(getValue(row, COL_RIGOR_ARQUIT)));
+                student.setCompletude(parseInteger(getValue(row, COL_COMPLETUDE)));
+                student.setCorretudeTec(parseInteger(getValue(row, COL_CORRETUDE_TEC)));
+                return student;
+            }
+        }
+        throw new StudentNotFoundException("Desculpe, não encontramos um estudante com a matrícula fornecida. Por favor, verifique a matrícula e tente novamente ou tente falar com o monitor.");
+    }
 
     private String getValue(List<Object> row, int index) {
         if (index < row.size()) {
